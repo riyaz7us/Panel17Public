@@ -116,6 +116,35 @@
       </div>
     </section>
 
+    <!-- Screenshots Section -->
+    <section class="py-20 bg-slate-800">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">See It In Action</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Main Screen -->
+          <div class="bg-slate-700 p-2 rounded-xl cursor-pointer hover:bg-slate-600 transition-colors" @click="selectedImage = '/screenshot.png'; showDialog = true">
+            <img src="/screenshot.png" alt="Main Screen" class="w-full object-cover rounded-lg">
+          </div>
+          <!-- File Manager -->
+          <div class="bg-slate-700 p-2 rounded-xl cursor-pointer hover:bg-slate-600 transition-colors" @click="selectedImage = '/file-manager.png'; showDialog = true">
+            <img src="/file-manager.png" alt="File Manager" class="w-full object-cover rounded-lg">
+          </div>
+
+          <!-- App Installer -->
+          <div class="bg-slate-700 p-2 rounded-xl cursor-pointer hover:bg-slate-600 transition-colors" @click="selectedImage = '/installer.png'; showDialog = true">
+            <img src="/installer.png" alt="App Installer" class="w-full object-cover rounded-lg">
+          </div>
+
+          <!-- Language Management -->
+          <div class="bg-slate-700 p-2 rounded-xl cursor-pointer hover:bg-slate-600 transition-colors" @click="selectedImage = '/languages.png'; showDialog = true">
+            <img src="/languages.png" alt="Language Management" class="w-full object-cover rounded-lg">
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
     <!-- USP Section -->
     <section class="py-20 bg-slate-800">
       <div class="container mx-auto px-4">
@@ -231,10 +260,20 @@
         </div>
       </div>
     </footer>
+
+    <!-- Lightbox Dialog -->
+    <Dialog v-model="showDialog">
+      <img :src="selectedImage" alt="Screenshot" class="w-full max-h-[80vh] object-contain rounded-lg">
+    </Dialog>
   </div>
 </template>
 
 <script setup>
+import Dialog from '~/components/native/dialog.vue'
+
+const showDialog = ref(false)
+const selectedImage = ref('')
+
 definePageMeta({
 	layout:'plain'
 })
