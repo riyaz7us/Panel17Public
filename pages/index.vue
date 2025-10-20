@@ -145,6 +145,36 @@
       </div>
     </section>
 
+    <!-- Themes Section -->
+    <section class="py-20 bg-slate-900">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+            <!-- Left Side: Title and Description -->
+            <div class="text-center lg:col-span-1 lg:text-left">
+              <h2 class="text-4xl font-bold mb-6">Experience In Multiple Themes</h2>
+              <p class="text-xl text-gray-300 leading-relaxed">
+                Discover the versatility of Panel 17 with its diverse theme collection.
+                Customize your interface to match your workflow and aesthetic preferences,
+                making every session uniquely yours.
+              </p>
+            </div>
+
+            <!-- Right Side: Themes Demo -->
+            <div class="lg:col-span-2 relative bg-slate-800 p-6 rounded-2xl shadow-2xl overflow-hidden w-full h-[500px]">
+              <div class="relative h-full w-full flex items-center justify-center">
+                <div class="relative h-full w-full">
+                  <div v-for="(theme, index) in themes" :key="theme.name + currentTheme" :src="`/themes/${theme.name}.png`" class="absolute inset-0 w-full h-full object-cover rounded-xl transition-all duration-1000 ease-in-out" :class="getStackClass(index)">
+                    <img :src="`/themes/${theme.name}.png`" alt="Theme Demo" class="w-full h-full rounded-xl">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- USP Section -->
     <section class="py-20 bg-slate-800">
       <div class="container mx-auto px-4">
@@ -274,11 +304,70 @@ import Dialog from '~/components/native/dialog.vue'
 const showDialog = ref(false)
 const selectedImage = ref('')
 
+const themes = [
+  { name: 'color1', label: 'Blue Theme' },
+  { name: 'color2', label: 'Green Theme' },
+  { name: 'color3', label: 'Purple Theme' },
+  { name: 'color4', label: 'Orange Theme' },
+  { name: 'color5', label: 'Red Theme' },
+  { name: 'color6', label: 'Minimal Theme' }
+]
+
+const currentTheme = ref(0)
+
+onMounted(() => {
+  const interval = setInterval(() => {
+    currentTheme.value = (currentTheme.value + 1) % themes.length
+  }, 1000)
+
+  onUnmounted(() => clearInterval(interval))
+})
+
+const nextTheme = () => {
+  currentTheme.value = (currentTheme.value + 1) % themes.length
+}
+
+const prevTheme = () => {
+  currentTheme.value = (currentTheme.value - 1 + themes.length) % themes.length
+}
+
+const getStackClass = (index) => {
+  const diff = (index - currentTheme.value + themes.length) % themes.length
+  if (diff === 0) return 'opacity-100 z-10 translate-y-0 rotate-0 scale-100'
+  if (diff === 1) return 'opacity-70 z-9 translate-y-1 rotate-1 transform translate-x-1 scale-98'
+  if (diff === 2) return 'opacity-50 z-8 translate-y-2 rotate-2 transform translate-x-2 scale-96'
+  if (diff === 3) return 'opacity-30 z-7 translate-y-3 rotate-3 transform translate-x-3 scale-94'
+  return 'opacity-10 z-0 translate-y-4 rotate-4 transform translate-x-4 scale-92'
+}
+
 definePageMeta({
 	layout:'plain'
 })
 </script>
 
 <style scoped>
-/* Additional styles if needed */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.stack-enter-active,
+.stack-leave-active {
+  transition: all 1s ease;
+}
+
+.stack-enter-from,
+.stack-leave-to {
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+}
+
+.stack-move {
+  transition: transform 0.5s ease;
+}
 </style>
